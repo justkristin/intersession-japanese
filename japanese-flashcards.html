@@ -24,6 +24,7 @@
   --N: #7080d8; --N-bg: #141828;
   --C: #50c4a8; --C-bg: #0a2018;
   --S: #d07898; --S-bg: #280f1a;
+  --W: #e05545; --W-bg: #2a1210;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
@@ -143,6 +144,7 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
   <button class="cat-btn" data-c="N">🔢 Numbers</button>
   <button class="cat-btn" data-c="C">🎨 Colors</button>
   <button class="cat-btn" data-c="S">💬 Sentences</button>
+  <button class="cat-btn" data-c="W">🍉 Suika-wari (Directions)</button>
 </div>
 
 <div class="controls">
@@ -214,6 +216,7 @@ const CAT = {
   N:{ label:'Numbers', color:'var(--N)', bg:'var(--N-bg)' },
   C:{ label:'Colors', color:'var(--C)', bg:'var(--C-bg)' },
   S:{ label:'Sentences', color:'var(--S)', bg:'var(--S-bg)' },
+  W:{ label:'🍉 Suika-wari', color:'var(--W)', bg:'var(--W-bg)' },
 };
 
 const ALL_CARDS = [
@@ -292,6 +295,23 @@ const ALL_CARDS = [
   {jp:'腹が立つ',rom:'hara ga tatsu',en:'I\'m angry (lit: my stomach stands up)',note:'Body-part idiom. Hara = belly carries anger and honesty.',c:'S'},
   {jp:'気をつけて',rom:'ki o tsukete',en:'Take care (lit: attach your ki)',note:'気 (ki) = spirit/energy. Woven through all of Japanese.',c:'S'},
   {jp:'気になる',rom:'ki ni naru',en:"It's on my mind / I'm curious",note:'Also: genki (healthy = original ki), ki ga suru (I have a feeling).',c:'S'},
+  {jp:'右',rom:'migi',en:'Right',note:'Shout this to turn them right. Chotto migi = a little to the right.',c:'W'},
+  {jp:'左',rom:'hidari',en:'Left',note:'Shout this to turn them left. Chotto hidari = a little to the left.',c:'W'},
+  {jp:'まっすぐ',rom:'massugu',en:'Straight ahead',note:"Keep going in a straight line — don't turn!",c:'W'},
+  {jp:'前',rom:'mae',en:'Forward / in front',note:'Move toward the watermelon. Mae mae! = Keep going forward!',c:'W'},
+  {jp:'後ろ',rom:'ushiro',en:'Back / behind you',note:"You've gone too far — reverse! Ushiro ushiro!",c:'W'},
+  {jp:'回れ',rom:'maware',en:'Turn! / Spin around!',note:'Used when they need to change direction entirely. Dramatic and fun to shout.',c:'W'},
+  {jp:'ちょっと',rom:'chotto',en:'A little bit',note:'The most useful modifier. Chotto migi = nudge right. Chotto mae = just a step forward.',c:'W'},
+  {jp:'もっと',rom:'motto',en:'More! / Further!',note:"They're not going far enough. Motto mae! = Further forward!",c:'W'},
+  {jp:'そこ',rom:'soko',en:"There! You're close!",note:'Excited confirmation they are nearly on target. Soko soko! = Right there!',c:'W'},
+  {jp:'止まれ',rom:'tomare',en:'Stop!',note:"Freeze right there. Used when they're perfectly positioned.",c:'W'},
+  {jp:'叩け',rom:'tatake',en:'Hit it! Strike!',note:'The dramatic finale — swing the stick! Everyone shouts this together.',c:'W'},
+  {jp:'打て',rom:'ute',en:'Strike! / Swing!',note:'Alternative to tatake — equally dramatic.',c:'W'},
+  {jp:'もう少し',rom:'mou sukoshi',en:'Just a little more',note:'So close! One more small step. More encouraging than motto.',c:'W'},
+  {jp:'違う',rom:'chigau',en:'No! Wrong way!',note:"They've gone off course. Sharp, clear, friendly correction.",c:'W'},
+  {jp:'惜しい',rom:'oshii',en:'So close! / Almost!',note:'When they just miss. One of the most satisfying Japanese words to shout.',c:'W'},
+  {jp:'右に回れ',rom:'migi ni maware',en:'Turn to the right!',note:'Combine migi + maware for a precise turn command.',c:'W'},
+  {jp:'左に回れ',rom:'hidari ni maware',en:'Turn to the left!',note:'The left-turn version.',c:'W'},
 ];
 
 let deck = [...ALL_CARDS];
