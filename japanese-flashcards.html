@@ -545,8 +545,8 @@ document.querySelectorAll('.mode-tab').forEach(tab => {
     document.getElementById('flashcard-mode').style.display = currentMode === 'flashcard' ? '' : 'none';
     document.getElementById('match-mode').style.display = currentMode === 'match' ? '' : 'none';
     document.getElementById('review-mode').style.display = currentMode === 'review' ? '' : 'none';
-    if (currentMode === 'match') startMatch();
-    if (currentMode === 'review') renderReview();
+    if (currentMode === 'match') setTimeout(startMatch, 0);
+    if (currentMode === 'review') setTimeout(renderReview, 0);
   });
 });
 
