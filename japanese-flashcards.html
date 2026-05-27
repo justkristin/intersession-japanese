@@ -542,9 +542,9 @@ document.querySelectorAll('.mode-tab').forEach(tab => {
     document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     currentMode = tab.dataset.mode;
-    document.getElementById('flashcard-mode').style.display = currentMode === 'flashcard' ? '' : 'none';
-    document.getElementById('match-mode').style.display = currentMode === 'match' ? '' : 'none';
-    document.getElementById('review-mode').style.display = currentMode === 'review' ? '' : 'none';
+    document.getElementById('flashcard-mode').style.display = currentMode === 'flashcard' ? 'block' : 'none';
+    document.getElementById('match-mode').style.display = currentMode === 'match' ? 'block' : 'none';
+    document.getElementById('review-mode').style.display = currentMode === 'review' ? 'block' : 'none';
     if (currentMode === 'match') setTimeout(startMatch, 0);
     if (currentMode === 'review') setTimeout(renderReview, 0);
   });
