@@ -3,229 +3,407 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>日本語 Flashcards</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+<title>日本語 Flashcards · Mx. Kristin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f0f0f;
-  --surface: #1a1a1a;
-  --surface2: #222;
-  --border: #2e2e2e;
-  --border2: #3a3a3a;
-  --text: #f0ece0;
-  --muted: #777;
-  --hint: #444;
-  --accent: #e8c547;
-  --E: #e05545; --E-bg: #2a1210;
-  --U: #5ba4d4; --U-bg: #0d1f30;
-  --O: #7dc96a; --O-bg: #0f2010;
-  --F: #c47fd4; --F-bg: #221030;
-  --L: #e09030; --L-bg: #281800;
-  --N: #7080d8; --N-bg: #141828;
-  --C: #50c4a8; --C-bg: #0a2018;
-  --S: #d07898; --S-bg: #280f1a;
-  --W: #e05545; --W-bg: #2a1210;
+  --purple:     #741f8a;
+  --purple-bg:  #814793;
+  --purple-lt:  #f3e8f7;
+  --ink:        #212121;
+  --ink-soft:   #5e5e5e;
+  --ink-faint:  #757575;
+  --white:      #ffffff;
+  --bg:         #ffffff;
+  --rule:       #e9e8e8;
+  --tag-bg:     #f2f2f2;
+  --tag-hover:  #e4d6ea;
+  --radius:     3px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-
-/* ── HEADER ── */
-.header {
-  padding: 20px 24px 0;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.65;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-.logo { font-family: 'Noto Serif JP', serif; font-size: 22px; color: var(--accent); letter-spacing: 2px; }
-.logo span { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted); margin-left: 10px; letter-spacing: 0; }
-.mode-tabs { display: flex; gap: 4px; background: var(--surface); border-radius: 8px; padding: 3px; border: 1px solid var(--border); }
-.mode-tab { background: none; border: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all .15s; white-space: nowrap; }
-.mode-tab.active { background: var(--surface2); color: var(--text); }
-
-/* ── FILTERS ── */
-.filters { display: flex; flex-wrap: wrap; gap: 6px; padding: 16px 24px 0; }
-.cat-btn { border: 1px solid var(--border); background: none; border-radius: 20px; padding: 4px 12px; font-family: 'DM Mono', monospace; font-size: 10px; cursor: pointer; transition: all .15s; letter-spacing: .5px; white-space: nowrap; }
-.cat-btn:hover { border-color: #555; color: var(--text); }
-.cat-btn.active { font-weight: 500; }
-.cat-btn[data-c="all"] { color: var(--text); }
-.cat-btn[data-c="all"].active { background: var(--text); color: var(--bg); border-color: var(--text); }
-.cat-btn[data-c="E"] { color: var(--E); } .cat-btn[data-c="E"].active { background: var(--E-bg); border-color: var(--E); }
-.cat-btn[data-c="U"] { color: var(--U); } .cat-btn[data-c="U"].active { background: var(--U-bg); border-color: var(--U); }
-.cat-btn[data-c="O"] { color: var(--O); } .cat-btn[data-c="O"].active { background: var(--O-bg); border-color: var(--O); }
-.cat-btn[data-c="F"] { color: var(--F); } .cat-btn[data-c="F"].active { background: var(--F-bg); border-color: var(--F); }
-.cat-btn[data-c="L"] { color: var(--L); } .cat-btn[data-c="L"].active { background: var(--L-bg); border-color: var(--L); }
-.cat-btn[data-c="N"] { color: var(--N); } .cat-btn[data-c="N"].active { background: var(--N-bg); border-color: var(--N); }
-.cat-btn[data-c="C"] { color: var(--C); } .cat-btn[data-c="C"].active { background: var(--C-bg); border-color: var(--C); }
-.cat-btn[data-c="S"] { color: var(--S); } .cat-btn[data-c="S"].active { background: var(--S-bg); border-color: var(--S); }
-.cat-btn[data-c="W"] { color: var(--W); } .cat-btn[data-c="W"].active { background: var(--W-bg); border-color: var(--W); }
-
-
-/* ── CONTROLS ── */
-.controls { display: flex; gap: 8px; padding: 12px 24px; align-items: center; flex-wrap: wrap; }
-.ctrl-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all .15s; }
-.ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
-.progress-info { margin-left: auto; font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
-
-/* ── FLASHCARD MODE ── */
-#flashcard-mode { padding: 16px 24px 32px; }
-.card-area { perspective: 1200px; margin-bottom: 20px; }
-.card-scene { width: 100%; max-width: 600px; margin: 0 auto; height: 280px; cursor: pointer; }
-.card-inner { width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.4,0,.2,1); position: relative; }
+/* HEADER */
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-name {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.header-right { display: flex; align-items: center; gap: 0.25rem; }
+.nav-link {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 0.88rem;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius);
+  transition: color 0.12s;
+}
+.nav-link:hover { color: var(--purple); }
+/* HERO */
+.hero {
+  width: 100%;
+  min-height: 180px;
+  background: url('hero_power_lines.png') center center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+.hero-text { position: relative; z-index: 1; text-align: center; padding: 2rem; }
+.hero h1 {
+  font-family: 'Lora', Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.4rem;
+}
+.hero-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 4px;
+}
+/* MODE TABS */
+.mode-bar {
+  border-bottom: 1px solid var(--rule);
+  background: var(--white);
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+}
+.mode-tab {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+  margin-bottom: -1px;
+}
+.mode-tab:hover { color: var(--purple); }
+.mode-tab.active { color: var(--purple); border-bottom-color: var(--purple); }
+/* CONTROLS */
+.controls {
+  max-width: 760px;
+  margin: 1.5rem auto 0;
+  padding: 0 2rem 1.25rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  border-bottom: 1px solid var(--rule);
+}
+.controls-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.ctrl-btn {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+.ctrl-btn:hover { border-color: var(--purple); color: var(--purple); }
+.card-count {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin-left: auto;
+}
+.filter-label {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+.pill {
+  display: inline-block;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  font-size: 0.78rem;
+  font-family: 'Lato', Arial, sans-serif;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  user-select: none;
+  color: var(--ink-soft);
+}
+.pill:hover { background: var(--tag-hover); color: var(--purple); }
+.pill.active { background: var(--purple-lt); border-color: var(--purple); color: var(--purple); font-weight: 700; }
+/* FLASHCARD */
+#flashcard-mode {
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1.75rem 2rem;
+  flex: 1;
+}
+.progress-bar { height: 3px; background: var(--rule); border-radius: 2px; margin-bottom: 1.5rem; }
+.progress-fill { height: 100%; border-radius: 2px; background: var(--purple); transition: width 0.3s; }
+.card-area { perspective: 1200px; margin-bottom: 1.25rem; }
+.card-scene { width: 100%; height: 260px; cursor: pointer; }
+.card-inner {
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
 .card-scene.flipped .card-inner { transform: rotateY(180deg); }
-.card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 12px; border: 1px solid var(--border); padding: 28px 32px; display: flex; flex-direction: column; justify-content: space-between; }
-.card-front { background: var(--surface); }
-.card-back { background: var(--surface2); transform: rotateY(180deg); }
-.card-cat-tag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-family: 'DM Mono', monospace; margin-bottom: 8px; }
-.card-jp { font-family: 'Noto Serif JP', serif; font-size: 48px; font-weight: 700; line-height: 1.1; margin-bottom: 6px; }
-.card-rom { font-size: 14px; color: var(--muted); font-style: italic; }
-.card-flip-hint { font-size: 10px; color: var(--hint); letter-spacing: 1.5px; text-transform: uppercase; font-family: 'DM Mono', monospace; text-align: right; }
-.card-en { font-size: 22px; font-weight: 500; line-height: 1.3; margin-bottom: 10px; }
-.card-note { font-size: 13px; color: #aaa; line-height: 1.6; flex: 1; }
-.card-nav { display: flex; align-items: center; justify-content: center; gap: 16px; max-width: 600px; margin: 0 auto; }
-.nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 18px; width: 44px; height: 44px; border-radius: 8px; cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; }
-.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
-.nav-btn:disabled { opacity: .25; cursor: not-allowed; }
-.nav-counter { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); min-width: 60px; text-align: center; }
-.progress-bar { height: 3px; background: var(--border); border-radius: 2px; max-width: 600px; margin: 12px auto 0; }
-.progress-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width .3s; }
-.known-unknown { display: flex; gap: 8px; max-width: 600px; margin: 12px auto 0; }
-.ku-btn { flex: 1; padding: 10px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .15s; border: 1px solid; }
-.ku-btn.known { background: #0f2010; border-color: #7dc96a; color: #7dc96a; }
-.ku-btn.unknown { background: #2a1210; border-color: #e05545; color: #e05545; }
-.ku-btn:hover { filter: brightness(1.2); }
-
-/* ── MATCH GAME MODE ── */
-#match-mode { padding: 16px 24px 32px; display: none; }
-.match-instructions { font-size: 13px; color: var(--muted); margin-bottom: 16px; text-align: center; }
-.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 700px; margin: 0 auto; }
-.match-col { display: flex; flex-direction: column; gap: 8px; }
-.match-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; cursor: pointer; transition: all .2s; font-size: 13px; line-height: 1.4; min-height: 60px; display: flex; align-items: center; }
-.match-tile.jp { font-family: 'Noto Serif JP', serif; font-size: 20px; }
-.match-tile:hover { border-color: #555; }
-.match-tile.selected { border-color: var(--accent); background: #1e1a08; color: var(--accent); }
-.match-tile.correct { border-color: #7dc96a; background: #0f2010; color: #7dc96a; cursor: default; pointer-events: none; }
-.match-tile.wrong { border-color: #e05545; background: #2a1210; animation: shake .3s ease; }
-.match-score { text-align: center; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-.match-complete { text-align: center; padding: 40px 20px; }
-.match-complete .big { font-family: 'Noto Serif JP', serif; font-size: 48px; color: var(--accent); margin-bottom: 12px; }
-.match-complete p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
-
-/* ── REVIEW MODE ── */
-#review-mode { padding: 16px 24px 32px; display: none; }
+.card-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  padding: 2rem 2.25rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.card-face:hover { border-color: #c8a8d4; box-shadow: 0 1px 6px rgba(116,31,138,0.07); }
+.card-back { transform: rotateY(180deg); background: var(--purple-lt); }
+.card-cat-tag {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+  color: var(--purple); margin-bottom: 0.5rem;
+}
+.card-jp { font-family: 'Noto Serif JP', serif; font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 700; line-height: 1.1; color: var(--ink); margin-bottom: 0.4rem; }
+.card-rom { font-family: 'Lora', Georgia, serif; font-size: 1rem; font-style: italic; color: var(--ink-faint); }
+.card-flip-hint { font-family: 'Lato', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #ccc; text-align: right; }
+.card-en { font-family: 'Lora', Georgia, serif; font-size: 1.15rem; font-weight: 600; line-height: 1.4; color: var(--ink); margin-bottom: 0.75rem; padding-left: 1rem; border-left: 2px solid var(--purple); }
+.card-note { font-family: 'Lato', Arial, sans-serif; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.6; font-style: italic; flex: 1; }
+.card-nav { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+.nav-btn {
+  background: var(--white); border: 1px solid var(--rule); color: var(--ink-soft);
+  font-size: 1.2rem; width: 40px; height: 40px; border-radius: var(--radius);
+  cursor: pointer; transition: border-color 0.12s, color 0.12s;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-btn:hover { border-color: var(--purple); color: var(--purple); }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-counter { font-family: 'Lato', Arial, sans-serif; font-size: 0.85rem; color: var(--ink-faint); min-width: 60px; text-align: center; }
+.known-unknown { display: flex; gap: 0.75rem; }
+.ku-btn {
+  flex: 1; padding: 0.6rem; border-radius: var(--radius);
+  font-family: 'Lato', Arial, sans-serif; font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.15s;
+  border: 1px solid var(--rule); background: var(--white); color: var(--ink-soft);
+}
+.ku-btn:hover { border-color: var(--purple); color: var(--purple); background: var(--purple-lt); }
+/* MATCH */
+#match-mode { max-width: 760px; margin: 0 auto; width: 100%; padding: 1.75rem 2rem; flex: 1; display: none; }
+.match-instructions { font-family: 'Lato', Arial, sans-serif; font-size: 0.88rem; color: var(--ink-faint); font-style: italic; text-align: center; margin-bottom: 1.25rem; }
+.match-score { font-family: 'Lato', Arial, sans-serif; font-size: 0.82rem; color: var(--purple); font-weight: 700; text-align: center; margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.match-col { display: flex; flex-direction: column; gap: 0.5rem; }
+.match-tile {
+  background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 0.85rem 1rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  font-size: 0.9rem; font-family: 'Lato', Arial, sans-serif; line-height: 1.4;
+  min-height: 56px; display: flex; align-items: center; color: var(--ink-soft);
+}
+.match-tile.jp { font-family: 'Noto Serif JP', serif; font-size: 1.15rem; color: var(--ink); }
+.match-tile:hover { border-color: #c8a8d4; box-shadow: 0 1px 4px rgba(116,31,138,0.07); }
+.match-tile.selected { border-color: var(--purple); background: var(--purple-lt); color: var(--purple); }
+.match-tile.correct { border-color: #5a9e6f; background: #edf7f1; color: #3a7a52; cursor: default; pointer-events: none; }
+.match-tile.wrong { border-color: #c0392b; background: #fdecea; animation: shake .3s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+.match-complete { text-align: center; padding: 3rem 2rem; }
+.match-complete .big { font-family: 'Noto Serif JP', serif; font-size: 3rem; color: var(--purple); margin-bottom: 0.75rem; }
+.match-complete p { font-family: 'Lora', Georgia, serif; font-style: italic; color: var(--ink-faint); margin-bottom: 1.25rem; }
+/* REVIEW */
+#review-mode { max-width: 760px; margin: 0 auto; width: 100%; padding: 1.75rem 2rem; flex: 1; display: none; }
 .review-table { width: 100%; border-collapse: collapse; }
-.review-table th { text-align: left; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 400; padding: 8px 12px; border-bottom: 1px solid var(--border); font-family: 'DM Mono', monospace; }
-.review-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
-.review-table tr:hover td { background: var(--surface); }
-.review-jp { font-family: 'Noto Serif JP', serif; font-size: 18px; }
-.review-rom { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 2px; }
-.review-en { font-weight: 500; font-size: 13px; }
-.review-note { font-size: 12px; color: #888; margin-top: 3px; line-height: 1.5; }
-.review-cat { display: inline-block; font-size: 9px; letter-spacing: 1.5px; padding: 2px 7px; border-radius: 20px; font-family: 'DM Mono', monospace; white-space: nowrap; }
-
-/* ── EMPTY ── */
-.empty { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 13px; }
+.review-table th { text-align: left; font-family: 'Lato', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 700; color: var(--ink-faint); padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule); }
+.review-table td { padding: 0.75rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.review-table tr:hover td { background: #faf8fc; }
+.review-jp { font-family: 'Noto Serif JP', serif; font-size: 1.15rem; color: var(--ink); }
+.review-rom { font-family: 'Lora', Georgia, serif; font-size: 0.78rem; color: var(--ink-faint); font-style: italic; margin-top: 2px; }
+.review-en { font-family: 'Lora', Georgia, serif; font-weight: 600; font-size: 0.9rem; color: var(--ink); }
+.review-note { font-family: 'Lato', Arial, sans-serif; font-size: 0.8rem; color: var(--ink-soft); font-style: italic; margin-top: 3px; line-height: 1.5; }
+.review-cat { display: inline-block; font-family: 'Lato', Arial, sans-serif; font-size: 0.7rem; letter-spacing: 0.07em; padding: 0.15rem 0.5rem; border-radius: 3px; background: var(--tag-bg); color: var(--ink-soft); white-space: nowrap; }
+/* FOOTER */
+footer {
+  background: var(--purple-bg); color: rgba(255,255,255,0.85);
+  font-family: 'Lato', Arial, sans-serif; font-size: 0.8rem;
+  padding: 1.5rem 2rem; text-align: center; margin-top: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.footer-email { font-family: 'Lora', Georgia, serif; font-size: 0.85rem; color: rgba(255,255,255,0.85); }
+.footer-linkedin { color: rgba(255,255,255,0.8); display: inline-flex; transition: color 0.15s; }
+.footer-linkedin:hover { color: #fff; }
+@media (max-width: 600px) {
+  header { padding: 0 1.25rem; }
+  .controls, #flashcard-mode, #match-mode, #review-mode { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .nav-link { display: none; }
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="logo">日本語<span>Japanese Vocabulary</span></div>
-  <div class="mode-tabs">
-    <button class="mode-tab active" data-mode="flashcard">Flashcards</button>
-    <button class="mode-tab" data-mode="match">Match Game</button>
-    <button class="mode-tab" data-mode="review">Review All</button>
+<header>
+  <a class="site-name" href="https://mxkristin.flaneurpajamas.com/">
+    <img src="crispy_roundy_square_web.png" alt="Crispy" style="height:1.6rem;width:auto;vertical-align:middle;margin-right:0.4rem;">Mx. Kristin
+  </a>
+  <div class="header-right">
+    <a class="nav-link" href="https://mxkristin.flaneurpajamas.com/">Main Site</a>
+    <a class="nav-link" href="https://www.flaneurpajamas.com">Flaneur Pajamas Blog</a>
+    <a class="nav-link" href="https://hyde.flaneurpajamas.com/commonplaces/index.html">Commonplace Book</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-text">
+    <h1>Japanese Flashcards</h1>
+    <div class="hero-jp">日本語フラッシュカード</div>
   </div>
 </div>
 
-<div class="filters">
-  <button class="cat-btn active" data-c="all">All</button>
-  <button class="cat-btn" data-c="E">😲 Exclamations</button>
-  <button class="cat-btn" data-c="U">✨ Untranslatable</button>
-  <button class="cat-btn" data-c="O">🔊 Onomatopoeia</button>
-  <button class="cat-btn" data-c="F">💭 Feelings</button>
-  <button class="cat-btn" data-c="L">🔤 Loanwords</button>
-  <button class="cat-btn" data-c="N">🔢 Numbers</button>
-  <button class="cat-btn" data-c="C">🎨 Colors</button>
-  <button class="cat-btn" data-c="S">💬 Sentences</button>
-  <button class="cat-btn" data-c="W">🍉 Suika-wari (Directions)</button>
+<div class="mode-bar">
+  <button class="mode-tab active" data-mode="flashcard">Flashcards</button>
+  <button class="mode-tab" data-mode="match">Match Game</button>
+  <button class="mode-tab" data-mode="review">Review All</button>
 </div>
 
 <div class="controls">
-  <button class="ctrl-btn" id="shuffleBtn">⇄ Shuffle</button>
-  <button class="ctrl-btn" id="resetBtn">↺ Reset</button>
-  <button class="ctrl-btn" id="unknownOnlyBtn">★ Review marked</button>
-  <div class="progress-info" id="progressInfo">70 cards</div>
+  <div class="controls-row">
+    <button class="ctrl-btn" id="shuffleBtn">⇄ Shuffle</button>
+    <button class="ctrl-btn" id="resetBtn">↺ Reset</button>
+    <button class="ctrl-btn" id="unknownOnlyBtn">★ Review marked</button>
+    <span class="card-count" id="progressInfo">92 cards</span>
+  </div>
+  <div class="controls-row">
+    <span class="filter-label">Category:</span>
+    <span class="pill active" data-c="all">All</span>
+    <span class="pill" data-c="E">😲 Exclamations</span>
+    <span class="pill" data-c="U">✨ Untranslatable</span>
+    <span class="pill" data-c="O">🔊 Onomatopoeia</span>
+    <span class="pill" data-c="F">💭 Feelings</span>
+    <span class="pill" data-c="L">🔤 Loanwords</span>
+    <span class="pill" data-c="N">🔢 Numbers</span>
+    <span class="pill" data-c="C">🎨 Colors</span>
+    <span class="pill" data-c="S">💬 Sentences</span>
+    <span class="pill" data-c="W">🍉 Suika-wari</span>
+  </div>
 </div>
 
-<!-- FLASHCARD MODE -->
 <div id="flashcard-mode">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   <div class="card-area">
     <div class="card-scene" id="cardScene" onclick="flipCard()">
-      <div class="card-inner" id="cardInner">
+      <div class="card-inner">
         <div class="card-face card-front" id="cardFront"></div>
         <div class="card-face card-back" id="cardBack"></div>
       </div>
     </div>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   <div class="card-nav">
-    <button class="nav-btn" id="prevBtn" onclick="prevCard()">‹</button>
-    <span class="nav-counter" id="navCounter">1 / 70</span>
-    <button class="nav-btn" id="nextBtn" onclick="nextCard()">›</button>
+    <button class="nav-btn" id="prevBtn" onclick="prevCard()">&#8249;</button>
+    <span class="nav-counter" id="navCounter">1 / 92</span>
+    <button class="nav-btn" id="nextBtn" onclick="nextCard()">&#8250;</button>
   </div>
   <div class="known-unknown">
-    <button class="ku-btn known" onclick="markKnown()">✓ Got it</button>
-    <button class="ku-btn unknown" onclick="markUnknown()">✗ Still learning</button>
+    <button class="ku-btn" onclick="markKnown()">✓ Got it</button>
+    <button class="ku-btn" onclick="markUnknown()">✗ Still learning</button>
   </div>
 </div>
 
-<!-- MATCH GAME MODE -->
 <div id="match-mode">
   <div class="match-score" id="matchScore"></div>
-  <div class="match-instructions">Match the Japanese word to its meaning. Click one from each side.</div>
+  <div class="match-instructions">Match the Japanese word to its meaning — click one from each column.</div>
   <div class="match-grid">
     <div class="match-col" id="leftCol"></div>
     <div class="match-col" id="rightCol"></div>
   </div>
   <div class="match-complete" id="matchComplete" style="display:none">
     <div class="big">完璧！</div>
-    <p>Perfect match! All pairs found.</p>
+    <p>Perfect match — all pairs found.</p>
     <button class="ctrl-btn" onclick="startMatch()">Play again</button>
   </div>
 </div>
 
-<!-- REVIEW TABLE MODE -->
 <div id="review-mode">
   <table class="review-table">
     <thead>
       <tr>
-        <th style="width:160px">Japanese</th>
-        <th style="width:140px">Romaji</th>
-        <th>English & Notes</th>
-        <th style="width:90px">Category</th>
+        <th style="width:170px">Japanese</th>
+        <th>English &amp; Notes</th>
+        <th style="width:110px">Category</th>
       </tr>
     </thead>
     <tbody id="reviewBody"></tbody>
   </table>
 </div>
 
+<footer>
+  <p class="footer-email">kristin at flaneurpajamas dot com</p>
+  <a class="footer-linkedin" href="https://www.linkedin.com/in/kristin-nielsen" target="_blank" rel="noopener" aria-label="LinkedIn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    </svg>
+  </a>
+</footer>
+
 <script>
 const CAT = {
-  E:{ label:'Exclamations', color:'var(--E)', bg:'var(--E-bg)' },
-  U:{ label:'Untranslatable', color:'var(--U)', bg:'var(--U-bg)' },
-  O:{ label:'Onomatopoeia', color:'var(--O)', bg:'var(--O-bg)' },
-  F:{ label:'Feelings', color:'var(--F)', bg:'var(--F-bg)' },
-  L:{ label:'Loanwords', color:'var(--L)', bg:'var(--L-bg)' },
-  N:{ label:'Numbers', color:'var(--N)', bg:'var(--N-bg)' },
-  C:{ label:'Colors', color:'var(--C)', bg:'var(--C-bg)' },
-  S:{ label:'Sentences', color:'var(--S)', bg:'var(--S-bg)' },
-  W:{ label:'🍉 Suika-wari', color:'var(--W)', bg:'var(--W-bg)' },
+  E:{label:'Exclamations'},U:{label:'Untranslatable'},O:{label:'Onomatopoeia'},
+  F:{label:'Feelings'},L:{label:'Loanwords'},N:{label:'Numbers'},
+  C:{label:'Colors'},S:{label:'Sentences'},W:{label:'Suika-wari'},
 };
 
 const ALL_CARDS = [
   {jp:'すごい',rom:'sugoi',en:'Incredible! / Wow!',note:'All-purpose amazement. Heard constantly in anime.',c:'E'},
   {jp:'やばい',rom:'yabai',en:"That's crazy / insane!",note:"Teen slang for 'that's wild.' Originally meant dangerous.",c:'E'},
   {jp:'かわいい',rom:'kawaii',en:'Cute / adorable',note:'One of the most globally famous Japanese words.',c:'E'},
-  {jp:'うそ！',rom:'uso!',en:'No way! / You\'re lying!',note:"Literally 'lie' — used like 'seriously?!' or 'shut up!'",c:'E'},
+  {jp:'うそ！',rom:'uso!',en:"No way! / You're lying!",note:"Literally 'lie' — used like 'seriously?!' or 'shut up!'",c:'E'},
   {jp:'え？',rom:'e?',en:'Huh? / What?!',note:'The quintessential Japanese confusion sound.',c:'E'},
   {jp:'なるほど',rom:'naruhodo',en:'I see / Ah, I get it!',note:'What you say when something finally clicks.',c:'E'},
   {jp:'頑張れ！',rom:'ganbare!',en:'You can do it! Go for it!',note:'The ultimate cheer. About effort, not just winning.',c:'E'},
@@ -265,7 +443,7 @@ const ALL_CARDS = [
   {jp:'アルバイト',rom:'arubaito',en:'Part-time job',note:"From GERMAN 'Arbeit' (work). Meiji-era academic exchange.",c:'L'},
   {jp:'リュック',rom:'ryukku',en:'Backpack',note:"From GERMAN 'Rucksack.' Japan borrowed from many languages.",c:'L'},
   {jp:'アイスクリーム',rom:'aisukuriimu',en:'Ice cream',note:'English to katakana. No L in Japanese — becomes R.',c:'L'},
-  {jp:'一 二 三',rom:'ichi / ni / san',en:'1 / 2 / 3',note:'Full: ichi ni san shi go roku nana hachi ku juu (1–10)',c:'N'},
+  {jp:'一 二 三',rom:'ichi / ni / san',en:'1 / 2 / 3',note:'Full: ichi ni san shi go roku nana hachi ku juu (1-10)',c:'N'},
   {jp:'〜本',rom:'~hon',en:'Counter: long thin things',note:'Pencils, bottles, trees, rivers, phone calls.',c:'N'},
   {jp:'〜枚',rom:'~mai',en:'Counter: flat thin things',note:'Paper, stamps, bread slices, T-shirts, CDs.',c:'N'},
   {jp:'一人・二人',rom:'hitori / futari',en:'1 person / 2 people',note:'People have special counters! Then san-nin, yo-nin...',c:'N'},
@@ -280,7 +458,7 @@ const ALL_CARDS = [
   {jp:'山吹色',rom:'yamabuki iro',en:'Yamabuki flower gold',note:'Vivid golden yellow — slang for gold coins in Edo-period Japan.',c:'C'},
   {jp:'白銀',rom:'hakugin',en:'Silver white / snow white',note:'The gleaming white of silver or fresh snow.',c:'C'},
   {jp:'〜が好きです',rom:'~ ga suki desu',en:'I like ___',note:'Plug in any noun. Anime ga suki desu = I like anime.',c:'S'},
-  {jp:'〜が大好きです',rom:'~ ga daisuki desu',en:'I LOVE ___',note:'Stronger than suki! 大 (dai) = big/great.',c:'S'},
+  {jp:'〜が大好きです',rom:'~ ga daisuki desu',en:'I LOVE ___',note:'Stronger than suki! dai = big/great.',c:'S'},
   {jp:'〜が嫌いです',rom:'~ ga kirai desu',en:"I don't like ___",note:'The honest flip side of suki. Kirai is strong — use carefully!',c:'S'},
   {jp:'〜がほしいです',rom:'~ ga hoshii desu',en:'I want ___',note:'For things (nouns). Sumaho ga hoshii desu = I want a smartphone.',c:'S'},
   {jp:'〜が食べたいです',rom:'~ ga tabetai desu',en:'I want to eat ___',note:'tabetai = want to eat. Try any food vocab from this week.',c:'S'},
@@ -288,272 +466,133 @@ const ALL_CARDS = [
   {jp:'〜はなんですか？',rom:'~ wa nan desu ka?',en:'What is ___?',note:'Kore wa nan desu ka? = What is this?',c:'S'},
   {jp:'〜はどこですか？',rom:'~ wa doko desu ka?',en:'Where is ___?',note:'Toire wa doko desu ka? = Where is the bathroom?',c:'S'},
   {jp:'もう一度お願いします',rom:'mou ichido onegaishimasu',en:'Please say that again',note:'Essential survival phrase. Polite and universally understood.',c:'S'},
-  {jp:'大丈夫ですか？',rom:'daijoubu desu ka?',en:'Are you okay?',note:'Also: Is that alright? Response: daijoubu desu (I\'m fine).',c:'S'},
+  {jp:'大丈夫ですか？',rom:'daijoubu desu ka?',en:'Are you okay?',note:"Also: Is that alright? Response: daijoubu desu = I'm fine.",c:'S'},
   {jp:'しょうがない',rom:'shou ga nai',en:"It can't be helped",note:'Core to Japanese stoicism and acceptance.',c:'S'},
   {jp:'一期一会',rom:'ichi-go ichi-e',en:"Treasure this moment — it won't come again",note:'Tea ceremony wisdom. Every meeting is once in a lifetime.',c:'S'},
   {jp:'七転び八起き',rom:'nana korobi ya oki',en:'Fall seven times, get up eight',note:"Japan's great grit proverb.",c:'S'},
   {jp:'〜のおかげで',rom:'~ no okage de',en:'Thanks to ___',note:'Minasan no okage de tanoshikatta = Thanks to all of you, it was fun.',c:'S'},
-  {jp:'おかげさまで',rom:'okage sama de',en:'Thanks to you!',note:'Used when asked how you are doing. Gives thanks to the asker for their continued care. No English equivalent. Literally: thanks to your shadow/presence.',c:'S'},
-  {jp:'腹が立つ',rom:'hara ga tatsu',en:'I\'m angry (lit: my stomach stands up)',note:'Body-part idiom. Hara = belly carries anger and honesty.',c:'S'},
-  {jp:'気をつけて',rom:'ki o tsukete',en:'Take care (lit: attach your ki)',note:'気 (ki) = spirit/energy. Woven through all of Japanese.',c:'S'},
+  {jp:'おかげさまで',rom:'okage sama de',en:'Thanks to you!',note:"Used when asked how you are doing. Gratitude for the other person's care. Literally: thanks to your shadow/presence.",c:'S'},
+  {jp:'腹が立つ',rom:'hara ga tatsu',en:"I'm angry (lit: my stomach stands up)",note:'Body-part idiom. Hara = belly carries anger and honesty.',c:'S'},
+  {jp:'気をつけて',rom:'ki o tsukete',en:'Take care (lit: attach your ki)',note:'ki = spirit/energy. Woven through all of Japanese.',c:'S'},
   {jp:'気になる',rom:'ki ni naru',en:"It's on my mind / I'm curious",note:'Also: genki (healthy = original ki), ki ga suru (I have a feeling).',c:'S'},
   {jp:'右',rom:'migi',en:'Right',note:'Shout this to turn them right. Chotto migi = a little to the right.',c:'W'},
   {jp:'左',rom:'hidari',en:'Left',note:'Shout this to turn them left. Chotto hidari = a little to the left.',c:'W'},
   {jp:'まっすぐ',rom:'massugu',en:'Straight ahead',note:"Keep going in a straight line — don't turn!",c:'W'},
   {jp:'前',rom:'mae',en:'Forward / in front',note:'Move toward the watermelon. Mae mae! = Keep going forward!',c:'W'},
   {jp:'後ろ',rom:'ushiro',en:'Back / behind you',note:"You've gone too far — reverse! Ushiro ushiro!",c:'W'},
-  {jp:'回れ',rom:'maware',en:'Turn! / Spin around!',note:'Used when they need to change direction entirely. Dramatic and fun to shout.',c:'W'},
-  {jp:'ちょっと',rom:'chotto',en:'A little bit',note:'The most useful modifier. Chotto migi = nudge right. Chotto mae = just a step forward.',c:'W'},
+  {jp:'回れ',rom:'maware',en:'Turn! / Spin around!',note:'Used when they need to change direction entirely.',c:'W'},
+  {jp:'ちょっと',rom:'chotto',en:'A little bit',note:'The most useful modifier. Chotto migi = nudge right.',c:'W'},
   {jp:'もっと',rom:'motto',en:'More! / Further!',note:"They're not going far enough. Motto mae! = Further forward!",c:'W'},
-  {jp:'そこ',rom:'soko',en:"There! You're close!",note:'Excited confirmation they are nearly on target. Soko soko! = Right there!',c:'W'},
+  {jp:'そこ',rom:'soko',en:"There! You're close!",note:'Excited confirmation they are nearly on target.',c:'W'},
   {jp:'止まれ',rom:'tomare',en:'Stop!',note:"Freeze right there. Used when they're perfectly positioned.",c:'W'},
   {jp:'叩け',rom:'tatake',en:'Hit it! Strike!',note:'The dramatic finale — swing the stick! Everyone shouts this together.',c:'W'},
   {jp:'打て',rom:'ute',en:'Strike! / Swing!',note:'Alternative to tatake — equally dramatic.',c:'W'},
-  {jp:'もう少し',rom:'mou sukoshi',en:'Just a little more',note:'So close! One more small step. More encouraging than motto.',c:'W'},
+  {jp:'もう少し',rom:'mou sukoshi',en:'Just a little more',note:'So close! One more small step.',c:'W'},
   {jp:'違う',rom:'chigau',en:'No! Wrong way!',note:"They've gone off course. Sharp, clear, friendly correction.",c:'W'},
-  {jp:'惜しい',rom:'oshii',en:'So close! / Almost!',note:'When they just miss. One of the most satisfying Japanese words to shout.',c:'W'},
+  {jp:'惜しい',rom:'oshii',en:'So close! / Almost!',note:'When they just miss. One of the most satisfying words to shout.',c:'W'},
   {jp:'右に回れ',rom:'migi ni maware',en:'Turn to the right!',note:'Combine migi + maware for a precise turn command.',c:'W'},
   {jp:'左に回れ',rom:'hidari ni maware',en:'Turn to the left!',note:'The left-turn version.',c:'W'},
 ];
 
-let deck = [...ALL_CARDS];
-let filtered = [...deck];
-let currentIdx = 0;
-let isFlipped = false;
-let unknown = new Set();
-let reviewingUnknown = false;
-let currentFilter = 'all';
-let currentMode = 'flashcard';
+let filtered=[...ALL_CARDS],currentIdx=0,isFlipped=false,unknown=new Set(),currentFilter='all',currentMode='flashcard';
 
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+
+function applyFilter(cat){
+  currentFilter=cat;
+  filtered=cat==='all'?[...ALL_CARDS]:ALL_CARDS.filter(c=>c.c===cat);
+  currentIdx=0;isFlipped=false;renderCard();updateProgress();renderReview();
 }
 
-function applyFilter(cat) {
-  currentFilter = cat;
-  reviewingUnknown = false;
-  filtered = cat === 'all' ? [...ALL_CARDS] : ALL_CARDS.filter(c => c.c === cat);
-  currentIdx = 0;
-  isFlipped = false;
-  renderCard();
-  updateProgress();
-  renderReview();
+function renderCard(){
+  if(!filtered.length){document.getElementById('cardFront').innerHTML='<p style="color:var(--ink-faint);font-family:Lato,sans-serif;text-align:center;padding:2rem">No cards.</p>';document.getElementById('cardBack').innerHTML='';return;}
+  const card=filtered[currentIdx];
+  document.getElementById('cardScene').classList.remove('flipped');isFlipped=false;
+  document.getElementById('cardFront').innerHTML=`<div><div class="card-cat-tag">${CAT[card.c].label}</div><div class="card-jp">${card.jp}</div><div class="card-rom">${card.rom}</div></div><div class="card-flip-hint">tap to reveal &#8635;</div>`;
+  document.getElementById('cardBack').innerHTML=`<div><div class="card-cat-tag">${CAT[card.c].label}</div><div class="card-en">${card.en}</div><div class="card-note">${card.note}</div></div><div class="card-flip-hint">tap to flip back</div>`;
+  document.getElementById('prevBtn').disabled=currentIdx===0;
+  document.getElementById('nextBtn').disabled=currentIdx===filtered.length-1;
+  document.getElementById('navCounter').textContent=`${currentIdx+1} / ${filtered.length}`;
+  document.getElementById('progressFill').style.width=`${((currentIdx+1)/filtered.length)*100}%`;
 }
 
-function renderCard() {
-  if (!filtered.length) {
-    document.getElementById('cardFront').innerHTML = '<div class="empty">No cards in this category.</div>';
-    document.getElementById('cardBack').innerHTML = '';
-    return;
-  }
-  const card = filtered[currentIdx];
-  const cat = CAT[card.c];
-  const scene = document.getElementById('cardScene');
-  scene.classList.remove('flipped');
-  isFlipped = false;
+function flipCard(){isFlipped=!isFlipped;document.getElementById('cardScene').classList.toggle('flipped',isFlipped);}
+function prevCard(){if(currentIdx>0){currentIdx--;renderCard();}}
+function nextCard(){if(currentIdx<filtered.length-1){currentIdx++;renderCard();}}
+function markKnown(){unknown.delete(ALL_CARDS.indexOf(filtered[currentIdx]));updateProgress();if(currentIdx<filtered.length-1)nextCard();}
+function markUnknown(){unknown.add(ALL_CARDS.indexOf(filtered[currentIdx]));updateProgress();if(currentIdx<filtered.length-1)nextCard();}
 
-  document.getElementById('cardFront').innerHTML = `
-    <div>
-      <div class="card-cat-tag" style="color:${cat.color}">${cat.label}</div>
-      <div class="card-jp">${card.jp}</div>
-      <div class="card-rom">${card.rom}</div>
-    </div>
-    <div class="card-flip-hint">tap to reveal ↺</div>`;
-
-  document.getElementById('cardBack').innerHTML = `
-    <div>
-      <div class="card-cat-tag" style="color:${cat.color}">${cat.label}</div>
-      <div class="card-en">${card.en}</div>
-      <div class="card-note">${card.note}</div>
-    </div>
-    <div class="card-flip-hint">tap to flip back</div>`;
-
-  document.getElementById('prevBtn').disabled = currentIdx === 0;
-  document.getElementById('nextBtn').disabled = currentIdx === filtered.length - 1;
-  document.getElementById('navCounter').textContent = `${currentIdx + 1} / ${filtered.length}`;
-  document.getElementById('progressFill').style.width = `${((currentIdx + 1) / filtered.length) * 100}%`;
+function updateProgress(){
+  const u=filtered.filter(c=>unknown.has(ALL_CARDS.indexOf(c))).length;
+  document.getElementById('progressInfo').textContent=`${filtered.length} cards · ${u} marked`;
+  document.getElementById('unknownOnlyBtn').textContent=u?`★ Review ${u} marked`:'★ Review marked';
 }
 
-function flipCard() {
-  isFlipped = !isFlipped;
-  document.getElementById('cardScene').classList.toggle('flipped', isFlipped);
-}
+document.getElementById('shuffleBtn').onclick=()=>{shuffle(filtered);currentIdx=0;renderCard();};
+document.getElementById('resetBtn').onclick=()=>{unknown.clear();applyFilter(currentFilter);};
+document.getElementById('unknownOnlyBtn').onclick=()=>{const u=ALL_CARDS.filter((_,i)=>unknown.has(i));if(!u.length)return;filtered=shuffle([...u]);currentIdx=0;isFlipped=false;renderCard();};
 
-function prevCard() {
-  if (currentIdx > 0) { currentIdx--; renderCard(); }
-}
-
-function nextCard() {
-  if (currentIdx < filtered.length - 1) { currentIdx++; renderCard(); }
-}
-
-function markKnown() {
-  const card = filtered[currentIdx];
-  unknown.delete(ALL_CARDS.indexOf(card));
-  updateProgress();
-  if (currentIdx < filtered.length - 1) nextCard();
-}
-
-function markUnknown() {
-  const card = filtered[currentIdx];
-  unknown.add(ALL_CARDS.indexOf(card));
-  updateProgress();
-  if (currentIdx < filtered.length - 1) nextCard();
-}
-
-function updateProgress() {
-  const total = filtered.length;
-  const unknownCount = filtered.filter((c,i) => unknown.has(ALL_CARDS.indexOf(c))).length;
-  document.getElementById('progressInfo').textContent = `${total} cards · ${unknownCount} marked`;
-  document.getElementById('unknownOnlyBtn').textContent = unknownCount ? `★ Review ${unknownCount} marked` : '★ Review marked';
-}
-
-document.getElementById('shuffleBtn').onclick = () => {
-  shuffle(filtered);
-  currentIdx = 0;
-  renderCard();
-};
-
-document.getElementById('resetBtn').onclick = () => {
-  unknown.clear();
-  reviewingUnknown = false;
-  applyFilter(currentFilter);
-};
-
-document.getElementById('unknownOnlyBtn').onclick = () => {
-  const unknownCards = ALL_CARDS.filter((c, i) => unknown.has(i));
-  if (!unknownCards.length) return;
-  filtered = shuffle([...unknownCards]);
-  currentIdx = 0;
-  isFlipped = false;
-  reviewingUnknown = true;
-  renderCard();
-};
-
-document.querySelectorAll('.cat-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    applyFilter(btn.dataset.c);
+document.querySelectorAll('.pill').forEach(pill=>{
+  pill.addEventListener('click',()=>{
+    document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+    pill.classList.add('active');applyFilter(pill.dataset.c);
   });
 });
 
-document.addEventListener('keydown', e => {
-  if (currentMode !== 'flashcard') return;
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextCard();
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevCard();
-  if (e.key === ' ') { e.preventDefault(); flipCard(); }
-  if (e.key === 'g') markKnown();
-  if (e.key === 's') markUnknown();
+document.addEventListener('keydown',e=>{
+  if(currentMode!=='flashcard')return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')nextCard();
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')prevCard();
+  if(e.key===' '){e.preventDefault();flipCard();}
+  if(e.key==='g')markKnown();if(e.key==='s')markUnknown();
 });
 
-// ── MATCH GAME ────────────────────────────────────────────────────────────────
-let matchSelected = null;
-let matchPairs = [];
-let matchCorrect = 0;
-
-function startMatch() {
-  document.getElementById('matchComplete').style.display = 'none';
-  const pool = currentFilter === 'all' ? ALL_CARDS : ALL_CARDS.filter(c => c.c === currentFilter);
-  matchPairs = shuffle([...pool]).slice(0, 8);
-  matchCorrect = 0;
-  matchSelected = null;
-  document.getElementById('matchScore').textContent = `0 / ${matchPairs.length} matched`;
-
-  const leftItems = shuffle(matchPairs.map((c, i) => ({ id: i, text: c.jp, side: 'L', jp: true })));
-  const rightItems = shuffle(matchPairs.map((c, i) => ({ id: i, text: c.en, side: 'R', jp: false })));
-
-  const makeCol = (items) => items.map(item => {
-    const div = document.createElement('div');
-    div.className = 'match-tile' + (item.jp ? ' jp' : '');
-    div.textContent = item.text;
-    div.dataset.id = item.id;
-    div.dataset.side = item.side;
-    div.onclick = () => onMatchClick(div, item);
-    return div;
-  });
-
-  const leftCol = document.getElementById('leftCol');
-  const rightCol = document.getElementById('rightCol');
-  leftCol.innerHTML = ''; rightCol.innerHTML = '';
-  makeCol(leftItems).forEach(el => leftCol.appendChild(el));
-  makeCol(rightItems).forEach(el => rightCol.appendChild(el));
+let matchSelected=null,matchPairs=[],matchCorrect=0;
+function startMatch(){
+  document.getElementById('matchComplete').style.display='none';
+  const pool=currentFilter==='all'?ALL_CARDS:ALL_CARDS.filter(c=>c.c===currentFilter);
+  matchPairs=shuffle([...pool]).slice(0,8);matchCorrect=0;matchSelected=null;
+  document.getElementById('matchScore').textContent=`0 / ${matchPairs.length} matched`;
+  const li=shuffle(matchPairs.map((c,i)=>({id:i,text:c.jp,side:'L',jp:true})));
+  const ri=shuffle(matchPairs.map((c,i)=>({id:i,text:c.en,side:'R',jp:false})));
+  const mk=items=>items.map(item=>{const d=document.createElement('div');d.className='match-tile'+(item.jp?' jp':'');d.textContent=item.text;d.dataset.id=item.id;d.dataset.side=item.side;d.onclick=()=>onMatchClick(d,item);return d;});
+  const lc=document.getElementById('leftCol'),rc=document.getElementById('rightCol');
+  lc.innerHTML='';rc.innerHTML='';mk(li).forEach(el=>lc.appendChild(el));mk(ri).forEach(el=>rc.appendChild(el));
 }
-
-function onMatchClick(el, item) {
-  if (el.classList.contains('correct')) return;
-  if (!matchSelected) {
-    matchSelected = { el, item };
-    el.classList.add('selected');
-    return;
-  }
-  if (matchSelected.el === el) {
-    el.classList.remove('selected');
-    matchSelected = null;
-    return;
-  }
-  if (matchSelected.item.side === item.side) {
-    matchSelected.el.classList.remove('selected');
-    matchSelected = { el, item };
-    el.classList.add('selected');
-    return;
-  }
-  if (matchSelected.item.id === item.id) {
-    matchSelected.el.classList.remove('selected');
-    matchSelected.el.classList.add('correct');
-    el.classList.add('correct');
-    matchCorrect++;
-    matchSelected = null;
-    document.getElementById('matchScore').textContent = `${matchCorrect} / ${matchPairs.length} matched`;
-    if (matchCorrect === matchPairs.length) {
-      setTimeout(() => document.getElementById('matchComplete').style.display = 'block', 400);
-    }
-  } else {
-    matchSelected.el.classList.remove('selected');
-    matchSelected.el.classList.add('wrong');
-    el.classList.add('wrong');
-    const prev = matchSelected;
-    matchSelected = null;
-    setTimeout(() => { prev.el.classList.remove('wrong'); el.classList.remove('wrong'); }, 500);
+function onMatchClick(el,item){
+  if(el.classList.contains('correct'))return;
+  if(!matchSelected){matchSelected={el,item};el.classList.add('selected');return;}
+  if(matchSelected.el===el){el.classList.remove('selected');matchSelected=null;return;}
+  if(matchSelected.item.side===item.side){matchSelected.el.classList.remove('selected');matchSelected={el,item};el.classList.add('selected');return;}
+  if(matchSelected.item.id===item.id){
+    matchSelected.el.classList.remove('selected');matchSelected.el.classList.add('correct');el.classList.add('correct');
+    matchCorrect++;matchSelected=null;
+    document.getElementById('matchScore').textContent=`${matchCorrect} / ${matchPairs.length} matched`;
+    if(matchCorrect===matchPairs.length)setTimeout(()=>document.getElementById('matchComplete').style.display='block',400);
+  }else{
+    matchSelected.el.classList.remove('selected');matchSelected.el.classList.add('wrong');el.classList.add('wrong');
+    const prev=matchSelected;matchSelected=null;
+    setTimeout(()=>{prev.el.classList.remove('wrong');el.classList.remove('wrong');},500);
   }
 }
 
-// ── REVIEW TABLE ──────────────────────────────────────────────────────────────
-function renderReview() {
-  const body = document.getElementById('reviewBody');
-  body.innerHTML = filtered.map(card => {
-    const cat = CAT[card.c];
-    return `<tr>
-      <td><div class="review-jp">${card.jp}</div><div class="review-rom">${card.rom}</div></td>
-      <td></td>
-      <td><div class="review-en">${card.en}</div><div class="review-note">${card.note}</div></td>
-      <td><span class="review-cat" style="background:${cat.bg};color:${cat.color}">${cat.label}</span></td>
-    </tr>`;
-  }).join('');
+function renderReview(){
+  document.getElementById('reviewBody').innerHTML=filtered.map(card=>`<tr><td><div class="review-jp">${card.jp}</div><div class="review-rom">${card.rom}</div></td><td><div class="review-en">${card.en}</div><div class="review-note">${card.note}</div></td><td><span class="review-cat">${CAT[card.c].label}</span></td></tr>`).join('');
 }
 
-// ── MODE SWITCHING ────────────────────────────────────────────────────────────
-document.querySelectorAll('.mode-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    currentMode = tab.dataset.mode;
-    document.getElementById('flashcard-mode').style.display = currentMode === 'flashcard' ? 'block' : 'none';
-    document.getElementById('match-mode').style.display = currentMode === 'match' ? 'block' : 'none';
-    document.getElementById('review-mode').style.display = currentMode === 'review' ? 'block' : 'none';
-    if (currentMode === 'match') setTimeout(startMatch, 0);
-    if (currentMode === 'review') setTimeout(renderReview, 0);
+document.querySelectorAll('.mode-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');currentMode=tab.dataset.mode;
+    document.getElementById('flashcard-mode').style.display=currentMode==='flashcard'?'block':'none';
+    document.getElementById('match-mode').style.display=currentMode==='match'?'block':'none';
+    document.getElementById('review-mode').style.display=currentMode==='review'?'block':'none';
+    if(currentMode==='match')setTimeout(startMatch,0);
+    if(currentMode==='review')setTimeout(renderReview,0);
   });
 });
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-shuffle(filtered);
-renderCard();
-updateProgress();
+shuffle(filtered);renderCard();updateProgress();
 </script>
 </body>
 </html>
